@@ -1,0 +1,32 @@
+{% extends "page.html" %}
+{% set title = i.name  %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+{{ super() }}
+<h2>{{ i.name }} за {{ i.price|rubles }}₽</h2>
+    <p>есть в {{ query.count() }} чеках</p>
+<table id="table" data-toggle="table" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Чек</th>
+            <th>Сумма чека</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%- for item in query %}
+    <tr>
+        <td>
+            <a href="{{ url_for('check', uid=item.check.id) }}">
+                {{ item.check.date_check }}</a> <span class="badge badge-pill badge-light">{{ item.check.count_item }}</span>
+        </td>
+        <td>
+            {{ item.check.summ|rubles }}₽
+        </td>
+    </tr>
+    {%- endfor %}
+    </tbody>
+
+</table>
+{% endblock %}

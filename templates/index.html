@@ -1,0 +1,24 @@
+{% extends "page.html" %}
+{% set title = 'Хранитель чеков GrossBuh' %}
+{% block head %}
+{{ super() }}
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+{% endblock %}
+{% block body %}
+{{ super() }}
+    <h1>Хранитель чеков GrossBuh</h1>
+<br>
+<hr class="mb-4">
+{% if big_check %}<p>Самый крупный чек: <strong>{{ big_check.summ|rubles }}</strong></p>{% endif %}
+    <div><div id="chart"></div></div>
+{% endblock %}
+{% block footer %}
+<script>
+    $.get('/api/list_check').done(function(data){
+        data.chart = {'type':'bar'};
+        var chart = new ApexCharts(document.querySelector("#chart"), data);
+        chart.render();
+    });
+</script>
+{{ super() }}
+{% endblock %}

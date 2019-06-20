@@ -1,0 +1,15 @@
+{% extends "page.html" %}
+{% set title = 'Logs' %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+{{ super() }}
+<h1>Logs app</h1>
+    <br>
+    <textarea class="form-control" rows="20" cols="50" readonly>
+{%- for item in query -%}
+{{ item.date.strftime('%d %b %Y %H:%m:%S') }} | {{ item.log }}
+{% endfor %}
+    </textarea>
+{% endblock %}

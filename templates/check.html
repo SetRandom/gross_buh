@@ -1,0 +1,52 @@
+{% extends "page.html" %}
+{% set title = 'Кассовый чек от ' + check.date_check.strftime('%d %b %Y %H:%m') %}
+{% block head %}
+{{ super() }}
+<style>
+    table {
+    border:4px double #dee2e6;
+    }
+</style>
+{% endblock %}
+{% block body %}
+{{ super() }}
+
+    <h1 class="text-center font-weight-light">Кассовый чек</h1>
+{#        {{ check.uid }}#}
+
+    <p class="text-secondary text-center font-weight-light">
+        от {{ check.date_check.strftime('%d %b %Y %H:%m') }}</p>
+    {% if check.detail.retailPlaceAddress %}
+    <p class="text-secondary">{{ check.detail.retailPlaceAddress }}</p>
+    {% endif %}
+    <p class="text-secondary">Кассир: {{ check.detail.operator }}</p>
+
+<table id="table" data-toggle="table" class="table table-hover table-sm">
+    <thead>
+        <tr>
+            <th>Наименование</th>
+            <th></th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%- for cell in items %}
+    <tr>
+        <td>
+            {{ cell.product.name|e }}
+        </td>
+        <td>
+            {{ cell.product.price|rubles }}₽ × {{ cell.quantity }}
+        </td>
+        <td>
+            {{ cell.summ|rubles }}₽
+        </td>
+    </tr>
+    {%- endfor %}
+    </tbody>
+
+</table>
+
+    <h4 class="font-weight-bold text-right">Итог: {{ check.summ|rubles }}₽</h4>
+
+{% endblock %}

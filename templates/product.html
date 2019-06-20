@@ -1,0 +1,51 @@
+{% extends "page.html" %}
+{% set title = 'Продукты в чеках' %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+<style>
+    .pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+</style>
+{{ super() }}
+<h1>Продукты</h1>
+    <br>
+<table id="table" data-toggle="table" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Наименование</th>
+            <th>Цена за шт (кг)</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%- for item in query %}
+    <tr>
+    <td>{{ loop.index + pagination.skip }}</td>
+        <td>
+            <a href="{{ url_for('prod', prod_id=item.id) }}">{{ item.name }}</a>
+        </td>
+        <td>
+            {{ item.price|rubles }}₽
+        </td>
+    </tr>
+    {%- endfor %}
+    </tbody>
+
+</table>
+{{ pagination.links }}
+{% endblock %}

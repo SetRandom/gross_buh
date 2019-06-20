@@ -1,0 +1,38 @@
+{% extends "page.html" %}
+{% set title = 'Чеки' %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+{{ super() }}
+<h1>Чеки
+    {% if month %}
+        {{ month.strftime('%B') }}
+    {% else %}
+        все
+    {% endif %}</h1>
+    <p>Всего {{ total }}</p>
+<table id="table" data-toggle="table" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+    {%- for item in query %}
+    <tr {% if item.summ > 100000 %} class="table-warning" {% endif %}>
+        <td>
+            <a href="{{ url_for('check', uid=item.id) }}">
+                {{ item.date_check }}</a> <span class="badge badge-pill badge-light">{{ item.count_item }}</span>
+        </td>
+        <td>
+            {{ item.summ|rubles }}₽
+        </td>
+    </tr>
+    {%- endfor %}
+    </tbody>
+
+</table>
+    {{ pagination.links }}
+{% endblock %}

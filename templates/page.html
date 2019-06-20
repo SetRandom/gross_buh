@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {%- block head -%}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    {% include 'js.html' %}
+    {% include 'css.html' %}
+    {%- endblock -%}
+</head>
+<body>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <strong>{{ message }}</strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class="container py-md-3 ">
+{% include "menu.html" %}
+<hr class="mb-4">
+
+    {%- block body -%}
+    {{ body }}
+    {%- endblock -%}
+</div>
+{%- block footer -%}
+{{ footer }}
+{%- endblock -%}
+</body>
+</html>

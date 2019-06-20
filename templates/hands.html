@@ -1,0 +1,101 @@
+{% extends "page.html" %}
+{% set title = 'Ввод чека вручную' %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+{{ super() }}
+    <div class="mx-auto" style="width: 75%;">
+
+  <div class="row">
+      <h4 class="mb-3"><strong>Ввод чека вручную</strong></h4>
+      <form class="needs-validation" novalidate action="{{ url_for('hands') }}" method="post">
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <div class="md-form md-outline my-2">
+              <label for="dateCheck">Дата чека</label>
+              <input type="date" id="dateCheck" name="dateCheck" class="form-control" placeholder="20180420" required>
+            </div>
+            <div class="valid-feedback">
+              Обязательно к заполнению
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="md-form md-outline my-2">
+                <label for="timeCheck">Время чека</label>
+              <input type="time" id="timeCheck" name="timeCheck" class="form-control" required>
+            </div>
+            <div class="valid-feedback">
+              Обязательно к заполнению
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+          <div class="md-form md-outline my-2">
+            <label for="fnCheck">ФН</label>
+            <input type="text" id="fnCheck" name="fnCheck" class="form-control" required placeholder="Например 8736000100025772">
+          </div>
+          <div class="valid-feedback">
+              Обязательно к заполнению
+            </div>
+        </div>
+          <div class="col-md-6 mb-3">
+            <div class="md-form md-outline my-2">
+              <label for="fdCheck">ФД</label>
+              <input type="text" id="fdCheck" name="fdCheck" class="form-control" required placeholder="Например 66490">
+            </div>
+            <div class="valid-feedback">
+              Обязательно к заполнению
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="md-form md-outline my-2">
+              <label for="fpCheck">ФП (10 символов)</label>
+              <input type="text" id="fpCheck" name="fpCheck" class="form-control" required placeholder="Например 23695902025">
+            </div>
+              <div class="valid-feedback">
+              Обязательно к заполнению
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="md-form md-outline my-2">
+              <label for="sumCheck">ИТОГ</label>
+              <input type="text" id="sumCheck" name="sumCheck" class="form-control" required placeholder="Например 31.90">
+            </div>
+              <div class="valid-feedback">
+              Обязательно к заполнению
+            </div>
+          </div>
+        </div>
+
+        <hr class="mb-4">
+        <input class="btn btn-primary btn-lg btn-block" type="submit" value="Отправить">
+      </form>
+  </div>
+
+</div>
+{% endblock %}
+{% block footer %}
+{{ super() }}
+    <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock %}

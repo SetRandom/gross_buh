@@ -1,0 +1,141 @@
+{% extends "page.html" %}
+{% set title = 'Сканирование' %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/instascan.min.js') }}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/3.3.3/adapter.min.js"></script>
+
+{% endblock %}
+{% block body %}
+{{ super() }}
+
+<h1>Сканирование</h1>
+<p>Поднесите устройство или веб-камеру к qr коду</p>
+<button type="button" class="btn btn-primary"
+data-toggle="modal" data-target="#ModalCenterSendHands">Я отсканировал в другом приложении</button>
+<hr class="mb-4">
+<div class="row justify-content-start">
+    <div class="card">
+        <div class="card-body">
+                <video id="preview"></video>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Чек отправлен
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- Modal -->
+<div class="modal fade" id="ModalCenterSendHands" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="InputS">QR чека</label>
+            <input class="form-control" type="text" id="InputS" aria-describedby="emailHelp" placeholder="">
+            <small id="emailHelp" class="form-text text-muted">Введите строку отсканированную с qr кода чека, например
+            t=20130320T192400&s=932.85&fn=872200100514581&i=101665&fp=1256353946&n=1 </small>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="sendS">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block footer %}
+{{ super() }}
+<script type="text/javascript">
+    function send_data(content) {
+        let jsdata = {'string': content};
+        $.ajax({
+            url: '/api/add_check',
+            type: 'PUT',
+            data: JSON.stringify(jsdata),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function () {
+                {#$('#exampleModalCenter').modal('show')#}
+                location.reload();
+                }
+            });
+
+    }
+
+    let mobile = false;
+    if( navigator.userAgent.match(/Android/i)
+         || navigator.userAgent.match(/webOS/i)
+         || navigator.userAgent.match(/iPhone/i)
+         || navigator.userAgent.match(/iPad/i)
+         || navigator.userAgent.match(/iPod/i)
+         || navigator.userAgent.match(/BlackBerry/i)
+         || navigator.userAgent.match(/Windows Phone/i)) {
+        mobile = true;
+    }
+  let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: true });
+  scanner.addListener('scan', function (content) {
+    {#alert(content);#}
+    scanner.stop();
+    let jsdata = {'string': content};
+    $.ajax({
+        url: '/api/add_check',
+        type: 'PUT',
+        data: JSON.stringify(jsdata),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function () {
+            {#$('#exampleModalCenter').modal('show')#}
+            location.reload();
+            }
+        });
+  });
+  Instascan.Camera.getCameras().then(function (cameras) {
+    if (cameras.length > 0) {
+        if (mobile === true && cameras.length > 1) {
+            scanner.start(cameras[1]);
+        }
+        else {
+            scanner.start(cameras[0]);
+        }
+    } else {
+      console.error('No cameras found.');
+    }
+  }).catch(function (e) {
+    console.error(e);
+  });
+
+  $(document).ready(function() {
+
+      $("#sendS").click(function () {
+            var s = $("#InputS").val();
+            $("#InputS").val('');
+            send_data(s);
+          $('#ModalCenterSendHands').modal('hide');
+      });
+
+  })
+    </script>
+{% endblock %}

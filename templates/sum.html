@@ -1,0 +1,32 @@
+{% extends "page.html" %}
+{% set title = 'Общая сумма' %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block body %}
+{{ super() }}
+
+<table id="table" data-toggle="table" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+
+            <th>Месяц</th>
+            <th>Общая сумма</th>
+
+        </tr>
+    </thead>
+    <tbody>
+    {%- for item in query %}
+    <tr>
+        <td>
+            {{ item.month.strftime('%b %Y') }}
+        </td>
+        <td>
+            {{ item.total|rubles }}₽
+        </td>
+    </tr>
+    {%- endfor %}
+    </tbody>
+
+</table>
+{% endblock %}
