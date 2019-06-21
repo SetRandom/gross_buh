@@ -11,7 +11,7 @@ database = 'postgresql://username:password@localhost:5432/database'
 
 # порт на котором будет работать фласк
 port = 8011
-DEBUG = True
+DEBUG = False
 
 flask_secret_key = '' # любой набор букв не меньше 10 символов
 

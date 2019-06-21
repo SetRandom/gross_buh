@@ -6,10 +6,17 @@ __version__ = '0.3'
 import requests
 from requests.auth import HTTPBasicAuth
 from time import sleep
-from ..config import CHECKER_FNS_EMAIL as EMAIL
-from ..config import CHECKER_FNS_PHONE as PHONE
-from ..config import CHECKER_FNS_NAME as NAME
-from ..config import CHECKER_FNS_PASSWD as PASSWD
+try:
+    from ..config import CHECKER_FNS_EMAIL as EMAIL
+    from ..config import CHECKER_FNS_PHONE as PHONE
+    from ..config import CHECKER_FNS_NAME as NAME
+    from ..config import CHECKER_FNS_PASSWD as PASSWD
+except ValueError:
+    print('No find config.py. Use empty variable')
+    EMAIL = ''
+    PHONE = ''
+    NAME = ''
+    PASSWD = ''
 
 API_URL = 'https://proverkacheka.nalog.ru:9999'
 REG_URL = API_URL + '/v1/mobile/users/signup'
