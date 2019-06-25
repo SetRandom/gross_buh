@@ -102,4 +102,4 @@ celery -A celery_worker worker -B -l info
  
 ### Запуск через docker-compose
 
-> TODO
+[Смотри здесь](https://github.com/SetRandom/gross_buh_docker)
