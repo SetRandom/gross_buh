@@ -62,11 +62,14 @@ def scan():
 @login_required
 def products():
     search = False
-    q = request.args.get('q')
+    q = request.args.get('q').strip()
     if q:
         search = True
+        query = Product.select().where(Product.name ** f'%{q}%').order_by(Product.name)
+    else:
+        query = Product.select().order_by(Product.name)
     page = request.args.get(get_page_parameter(), type=int, default=1)
-    query = Product.select().order_by(Product.name)
+
 
     pagination = Pagination(page=page, total=query.count(),
                             search=search,

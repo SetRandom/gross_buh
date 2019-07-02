@@ -24,6 +24,13 @@
 {{ super() }}
 <h1>Продукты</h1>
     <br>
+      <form class="form-inline" role="search">
+    <div class="form-group">
+      <input class="form-control" placeholder="Поиск по продуктам" name="q" id="q" type="text">
+        <button class="btn btn-primary" type="submit">Искать</button>
+    </div>
+  </form>
+        <hr>
 <table id="table" data-toggle="table" class="table table-bordered table-hover">
     <thead>
         <tr>
